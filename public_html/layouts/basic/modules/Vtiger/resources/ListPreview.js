@@ -71,7 +71,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if (typeof recordUrl == 'undefined') {
 				return;
 			}
-			e.preventDefault();
 			$('.listViewEntriesTable .listViewEntries').removeClass('active');
 			$(this).addClass('active');
 			thisInstance.updatePreview(recordUrl);
@@ -130,6 +129,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
+	setSplitWindowsSize(container) {
+		const cachedParams = app.moduleCacheGet('splitParams');
+		if (cachedParams !== null) {
+			return cachedParams;
+		} else {
+			let thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
+			thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
+			return [thWidth, 100 - thWidth];
+		}
+	},
 	/**
 	 * Registers split object and executes its events listeners.
 	 * @param {jQuery} container - current container for reference.
@@ -138,18 +147,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerSplit: function (container) {
 		var thisInstance = this;
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
-		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
 		var fixedList = container.find('.fixedListInitial');
 		var wrappedPanel = container.find('.wrappedPanel');
 		var wrappedPanelLeft = container.find(wrappedPanel[0]);
 		var wrappedPanelRight = container.find(wrappedPanel[1]);
 		var split = Split(['.fixedListInitial', '.listPreview'], {
-			sizes: [thWidth, 100 - thWidth],
+			sizes: thisInstance.setSplitWindowsSize(container),
 			minSize: 10,
 			gutterSize: 8,
 			snapOffset: 100,
-			onDrag: function () {
+			onDrag: function (e) {
 				if (split.getSizes()[1] < rightSplitMaxWidth) {
 					split.collapse(1);
 				}
@@ -164,6 +171,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				} else {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
 				}
+				app.moduleCacheSet('splitParams', split.getSizes());
 			}
 		});
 		var gutter = container.find('.gutter');
