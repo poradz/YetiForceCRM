@@ -122,7 +122,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = $tree['icon'] === 1 ? '' : $tree['icon'];
+		$icon = $tree['icon'] === '1' ? '' : $tree['icon'];
 		if ($parenttrre != '') {
 			$parenttrre = $parenttrre . '::';
 		}
@@ -250,6 +250,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				->execute();
 			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates_templateid_seq'));
 			foreach ($this->get('tree') as $tree) {
+				die(var_dump($tree));
 				$this->insertData($tree, 0, '');
 			}
 		} else {
@@ -259,6 +260,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
 				->execute();
 			foreach ($this->get('tree') as $tree) {
+				die(var_dump($tree));
 				$this->insertData($tree, 0, '');
 			}
 		}
