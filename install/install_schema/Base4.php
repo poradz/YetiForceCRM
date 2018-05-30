@@ -1605,7 +1605,7 @@ class Base4 extends \App\Db\Importers\Base
 					'callduration' => $this->smallInteger(3)->unsigned(),
 					'othereventduration' => $this->smallInteger(3)->unsigned(),
 					'default_record_view' => $this->stringType(10),
-					'leftpanelhide' => $this->smallInteger(3)->unsigned(),
+					'menuHide' => $this->smallInteger(3)->unsigned(),
 					'rowheight' => $this->stringType(10),
 					'defaulteventstatus' => $this->stringType(50),
 					'defaultactivitytype' => $this->stringType(50),
@@ -1627,7 +1627,7 @@ class Base4 extends \App\Db\Importers\Base
 					'force_password_change' => $this->tinyInteger(1)->defaultValue(0),
 					'no_of_currency_decimals' => $this->tinyInteger(1)->unsigned(),
 					'truncate_trailing_zeros' => $this->tinyInteger(1)->unsigned(),
-					'leftpanelhide' => $this->tinyInteger(3)->unsigned(),
+					'menuHide' => $this->tinyInteger(3)->unsigned(),
 					'emailoptout' => $this->tinyInteger(3)->unsigned()->notNull()->defaultValue(1),
 					'available' => $this->tinyInteger(1)->defaultValue(0),
 					'auto_assign' => $this->tinyInteger(1)->defaultValue(0),
@@ -9263,7 +9263,7 @@ class Base4 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_users' => [
-				'columns' => ['id', 'user_name', 'user_password', 'cal_color', 'first_name', 'last_name', 'reports_to_id', 'is_admin', 'currency_id', 'description', 'date_entered', 'date_modified', 'modified_user_id', 'email1', 'status', 'user_preferences', 'tz', 'holidays', 'namedays', 'workdays', 'weekstart', 'date_format', 'hour_format', 'start_hour', 'end_hour', 'activity_view', 'lead_view', 'imagename', 'deleted', 'confirm_password', 'internal_mailer', 'reminder_interval', 'reminder_next_time', 'accesskey', 'theme', 'language', 'time_zone', 'currency_grouping_pattern', 'currency_decimal_separator', 'currency_grouping_separator', 'currency_symbol_placement', 'phone_crm_extension', 'no_of_currency_decimals', 'truncate_trailing_zeros', 'dayoftheweek', 'callduration', 'othereventduration', 'default_record_view', 'leftpanelhide', 'rowheight', 'defaulteventstatus', 'defaultactivitytype', 'is_owner', 'emailoptout', 'available', 'auto_assign', 'records_limit'],
+				'columns' => ['id', 'user_name', 'user_password', 'cal_color', 'first_name', 'last_name', 'reports_to_id', 'is_admin', 'currency_id', 'description', 'date_entered', 'date_modified', 'modified_user_id', 'email1', 'status', 'user_preferences', 'tz', 'holidays', 'namedays', 'workdays', 'weekstart', 'date_format', 'hour_format', 'start_hour', 'end_hour', 'activity_view', 'lead_view', 'imagename', 'deleted', 'confirm_password', 'internal_mailer', 'reminder_interval', 'reminder_next_time', 'accesskey', 'theme', 'language', 'time_zone', 'currency_grouping_pattern', 'currency_decimal_separator', 'currency_grouping_separator', 'currency_symbol_placement', 'phone_crm_extension', 'no_of_currency_decimals', 'truncate_trailing_zeros', 'dayoftheweek', 'callduration', 'othereventduration', 'default_record_view', 'menuHide', 'rowheight', 'defaulteventstatus', 'defaultactivitytype', 'is_owner', 'emailoptout', 'available', 'auto_assign', 'records_limit'],
 				'values' => [
 					[1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', '#E6FAD8', '', 'Administrator', 0, 'on', 1, '', 'NOW()', 'NOW()', null, 'help@yetiforce.com', 'Active', null, null, null, null, null, null, 'yyyy-mm-dd', '24', '08:00', '23:00', 'This Month', 'Today', '', 0, '$1$ad000000$nYTnfhTZRmUP.wQT9y1AE.', 1, '15 Minutes', null, 'aOFXop10GCJ1uw0P', 'twilight', 'en_us', 'Europe/Sarajevo', '123456789', ',', ' ', '1.0$', '', 2, 1, 'Monday', 60, 60, 'Summary', 0, 'medium', 'PLL_PLANNED', 'Meeting', '1', 1, 1, 0, null],
 				]

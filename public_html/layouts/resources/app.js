@@ -1205,7 +1205,7 @@ app = {
 			}
 		});
 		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
-		self.sidebar.find('.js-menu').on('keydown', self.sidebarKeyboard.bind(self));
+		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
@@ -1237,7 +1237,7 @@ app = {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
-			this.sidebar.find('.js-menu :tabbable').first().focus();
+			this.sidebar.find('.js-menu__content :tabbable').first().focus();
 		}
 	},
 	registerPinEvent: function () {
@@ -1261,7 +1261,7 @@ app = {
 			AppConnector.request({
 				module: 'Users',
 				action: 'SaveAjax',
-				field: 'leftpanelhide',
+				field: 'menuHide',
 				record: CONFIG.userId,
 				value: hideMenu
 			}).then(function (responseData) {
@@ -1291,10 +1291,10 @@ app = {
 			target.click();
 			return false;
 		} else if (e.which == this.keyboard.UP) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus();
+			this.sidebar.find('.js-menu__content :tabbable').eq(parseInt(this.sidebar.find('.js-menu__content :tabbable').index(target)) - 1).focus();
 			return false;
 		} else if (e.which == this.keyboard.DOWN) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus();
+			this.sidebar.find('.js-menu__content :tabbable').eq(parseInt(this.sidebar.find('.js-menu__content :tabbable').index(target)) + 1).focus();
 			return false;
 		}
 	},

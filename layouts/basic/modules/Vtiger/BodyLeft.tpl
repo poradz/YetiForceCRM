@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="tpl-BodyLeft">
+		<!-- tpl-BodyLeft -->
 		<div class="container-fluid c-menu__header">
 			<div class="row padding0">
 				<div class="col-md-2 noSpaces">
@@ -21,8 +21,8 @@
 							{/foreach}
 							<p class="companyName noSpaces u-text-ellipsis">{$COMPANY_DETAILS->get('name')}</p>
 						</div>
-						<div class="col-2 noSpaces text-center js-menu-pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"
-							 data-show="{$USER_MODEL->get('leftpanelhide')}" data-js="click">
+						<div class="col-2 noSpaces text-center js-menu-pin {if !$USER_MODEL->get('menuHide')} u-opacity-muted{/if}"
+							 data-show="{$USER_MODEL->get('menuHide')}" data-js="click">
 							<span class="fas fa-thumbtack u-cursor-pointer"></span>
 						</div>
 					</div>
@@ -32,6 +32,6 @@
 		<div class="js-menu--scroll c-menu__body" data-js="perfectscrollbar">
 			{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE)}
 		</div>
-	</div>
+		<!-- / tpl-BodyLeft -->
 {/strip}
 

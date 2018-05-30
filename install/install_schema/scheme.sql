@@ -9036,7 +9036,7 @@ CREATE TABLE `vtiger_users` (
   `callduration` varchar(3) DEFAULT NULL,
   `othereventduration` varchar(3) DEFAULT NULL,
   `default_record_view` varchar(10) DEFAULT NULL,
-  `leftpanelhide` tinyint(3) unsigned DEFAULT NULL,
+  `menuHide` tinyint(3) unsigned DEFAULT NULL,
   `rowheight` varchar(10) DEFAULT NULL,
   `defaulteventstatus` varchar(50) DEFAULT NULL,
   `defaultactivitytype` varchar(50) DEFAULT NULL,

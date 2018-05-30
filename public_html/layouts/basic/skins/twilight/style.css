@@ -2,10 +2,10 @@
 	border-top: 1px solid #fff;
 	background: #4979aa;
 }
-.leftPanel .ps-scrollbar-y-rail {
+.c-menu__container .ps-scrollbar-y-rail {
 	display: none !important;
 }
-.userInfoFooter .leftPanel {
+.userInfoFooter .c-menu__container {
 	bottom: 50px;
 }
 input[type=checkbox] {
