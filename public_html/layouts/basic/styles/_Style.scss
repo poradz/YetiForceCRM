@@ -2971,7 +2971,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 1200px) {
-	.o-base-container:not(.leftPanelOpen) .leftPanel:hover + .basePanel {
+	.o-base-container:not(.c-menu--open) .leftPanel:hover + .basePanel {
 		width: calc(100% - 180px);
 		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -3290,7 +3290,7 @@ html, body, .o-base-container {
 		}
 	}
 
-	.userDetailsContainer .row {
+	.c-menu__header .row {
 		.col-md-2 {
 			width: 16.66666667%;
 			float: left;
@@ -3400,7 +3400,7 @@ html, body, .o-base-container {
 		}
 	}
 
-	.userDetailsContainer .row {
+	.c-menu__header .row {
 		.col-md-2 {
 			width: 50px;
 			float: left;
@@ -3979,7 +3979,7 @@ select.form-control {
 	}
 }
 
-.leftPanelOpen {
+.c-menu--open {
 	&.siteBarRight {
 		width: calc(25% - 50px);
 	}
