@@ -334,8 +334,6 @@ app = {
 			if (backdrop.length > 0) {
 				$('body').addClass('modal-open');
 			}
-		}).one('shown.bs.modal', function () {
-			$('.js-popover-tooltip').popover('hide');
 		});
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
