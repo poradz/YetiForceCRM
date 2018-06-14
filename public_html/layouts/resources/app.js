@@ -106,6 +106,17 @@ app = {
 		}
 		element.popover('hide');
 	},
+	/**
+	 * Function to hide popovers after click, esepcially on mobiles
+	 * @params jQuery object on which popover was triggered
+	 */
+	hidePopoversAfterClick(popoverParent) {
+		popoverParent.on('click', (e) => {
+			setTimeout(() => {
+				popoverParent.popover('hide');
+			}, 100);
+		});
+	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
@@ -151,6 +162,7 @@ app = {
 				}
 			});
 		});
+		app.hidePopoversAfterClick(selectElement);
 		return selectElement;
 	},
 	/**
@@ -322,6 +334,8 @@ app = {
 			if (backdrop.length > 0) {
 				$('body').addClass('modal-open');
 			}
+		}).one('shown.bs.modal', function () {
+			$('.js-popover-tooltip').popover('hide');
 		});
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
@@ -1453,6 +1467,10 @@ $(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	$('.modal').on('show.bs.modal', function (e) {
+		console.log('asdf');
+		app.hidePopover();
+	})
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
