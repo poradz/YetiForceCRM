@@ -1,0 +1,27 @@
+.c-condition-builder {
+	&__row {
+		position: relative;
+
+		&::after,
+		&::before {
+			content: "";
+			position: absolute;
+			height: 100%;
+			width: 20px;
+			top: 0;
+		}
+
+		&::after {
+			border-left: solid 2px black;
+		}
+
+		&::before {
+			height: 50%;
+			border-bottom: solid 2px black;
+		}
+
+		&:last-of-type::after {
+			height: 50%;
+		}
+	}
+}
