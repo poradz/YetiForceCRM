@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Base-ConditionBuilderRow d-flex js-condition-builder-conditions-row">
+	<div class="tpl-Base-ConditionBuilderRow d-flex js-condition-builder-conditions-row form-group-sm">
 		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}
@@ -48,7 +48,7 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="col-4">
+		<div class="col-4 input-group input-group-sm">
 			{assign var=TEMPLATE_NAME value=$SELECTED_FIELD_MODEL->getOperatorTemplateName($SELECTED_OPERATOR)}
 			{if !empty($TEMPLATE_NAME)}
 				{include file=\App\Layout::getTemplatePath($TEMPLATE_NAME, $SOURCE_MODULE)
@@ -61,5 +61,4 @@
 			</button>
 		</div>
 	</div>
-
 {/strip}
