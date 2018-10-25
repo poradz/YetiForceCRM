@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 js-condition-builder-conditions-row form-group-sm">
+	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex ml-3 pt-2 js-condition-builder-conditions-row form-group-sm">
 		{if !$SELECTED_FIELD_MODEL && $CONDITIONS_ROW}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getOperators()}

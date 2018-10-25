@@ -1,3 +1,4 @@
+$condition-builder-border: solid 1px #337ab7;
 .c-condition-builder {
 	&__row {
 		position: relative;
@@ -12,16 +13,47 @@
 		}
 
 		&::after {
-			border-left: solid 2px black;
+			border-left: $condition-builder-border;
 		}
 
 		&::before {
 			height: 50%;
-			border-bottom: solid 2px black;
+			border-bottom: $condition-builder-border;
 		}
 
 		&:last-of-type::after {
 			height: 50%;
+		}
+	}
+
+	&__group {
+		.c-condition-builder__group {
+			position: relative;
+
+			padding-left: 15px;
+			margin-left: 1rem;
+			&::after,
+			&::before {
+				content: "";
+				position: absolute;
+				height: 100%;
+				width: 20px;
+				top: 0;
+				left: 0;
+			}
+
+			&::after {
+				border-left: $condition-builder-border;
+			}
+
+			&::before {
+				height: 50%;
+				border-bottom: $condition-builder-border;
+			}
+
+			&:last-of-type::after {
+				height: 50%;
+			}
 		}
 	}
 }
