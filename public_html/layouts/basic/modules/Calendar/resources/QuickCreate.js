@@ -8,6 +8,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		this.isSwitchAllDays = false;
 		this.renderCalendar();
 		this.registerEvents();
+		console.log('asdf');
 	}
 
 	/**
