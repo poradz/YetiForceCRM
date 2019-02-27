@@ -14,7 +14,7 @@
       :key="position.key"
       v-bind="position.props"
     ></component>
-    <q-item header bordered class="bg-black text-white q-toolbar q-px-md absolute-bottom">
+    <q-item header class="border-right bg-grey-12 text-black q-toolbar q-px-md absolute-bottom">
       <q-item-section avatar>
         <q-icon name="domain" />
       </q-item-section>
@@ -45,3 +45,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.border-right {
+  border-right: 1px solid #bdbdbd;
+}
+</style>
