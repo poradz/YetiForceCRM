@@ -18,7 +18,7 @@
 <script>
 import getters from '/src/store/getters.js'
 import mutations from '/src/store/mutations.js'
-const moduleName = 'Base.Basic.Pages.Basic'
+const moduleName = 'Basic.List'
 export default {
   name: moduleName,
   data() {
