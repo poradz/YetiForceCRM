@@ -169,8 +169,15 @@ class Calendar
 	 */
 	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null)
 	{
+
+		$current_user = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$timeZone = is_object($current_user) ? $current_user->time_zone : \App\Config::main('default_timezone');
 		$instance = new self();
 		$instance->vcalendar = VObject\Reader::read($content);
+		$dateTime = $instance->vcalendar->VEVENT->DTSTART->getDateTime();
+		$dateTime = new \DateTime($dateTime->format('Y-m-d H:i:s'), $dateTime->getTimezone());
+		$dateTime->setTimeZone(new \DateTimeZone($timeZone));
+		$instance->vcalendar->VEVENT->DTSTART = $dateTime;
 		if ($recordModel && $uid) {
 			$instance->records[$uid] = $recordModel;
 		}
