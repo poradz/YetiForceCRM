@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import { dom } from 'quasar/src/utils.js'
-const { offset, ready, height } = dom
 export default {
   name: 'Carousel',
   data() {
