@@ -49,7 +49,7 @@
             <q-input
               class="tree-search"
               v-model="filter"
-              placeholder="Search"
+              :placeholder="translate('JS_SEARCH_PLACEHOLDER')"
               rounded
               outlined
               type="search"
