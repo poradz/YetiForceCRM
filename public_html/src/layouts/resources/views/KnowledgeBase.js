@@ -2,7 +2,7 @@
 
 import Quasar from '../../../libraries/quasar.js'
 import KnowledgeBaseComponent from './KnowledgeBase.vue'
-import FullScreenComponent from './FullScreen.vue'
+import RecordPreviewComponent from './RecordPreview.vue'
 import store from '../../../libraries/vuex.js'
 
 let VueInstance = null
@@ -15,11 +15,11 @@ window.KnowledgeBase = {
 	},
 	store
 }
-window.KnowledgeBaseFullScreen = {
-	component: FullScreenComponent,
+window.KnowledgeBaseRecordPreview = {
+	component: RecordPreviewComponent,
 	mount(config) {
-		FullScreenComponent.moduleName = config.moduleName
-		VueInstance = new window.Vue(FullScreenComponent).$mount(config.el)
+		RecordPreviewComponent.options = config.options
+		VueInstance = new window.Vue(RecordPreviewComponent).$mount(config.el)
 		return VueInstance
 	}
 }
