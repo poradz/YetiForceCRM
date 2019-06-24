@@ -301,7 +301,7 @@ abstract class View extends Base
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 			'~libraries/tributejs/dist/tribute.js',
 			'~libraries/emojipanel/dist/emojipanel.js',
-			'~libraries/vue/dist/vue.min.js',
+			'~libraries/vue/dist/vue.js',
 			'~layouts/resources/libraries/quasar.config.js',
 			'~libraries/quasar/dist/quasar.umd.min.js',
 			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
@@ -324,6 +324,9 @@ abstract class View extends Base
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {
 			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase.vue.js';
+		}
+		if (\App\Privilege::isPermitted('Notification')) {
+			$jsFileNames[] = '~layouts/resources/views/Notification.vue.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";

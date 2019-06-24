@@ -263,6 +263,21 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge js-notifications-badge js-popover-tooltip js-notification-modal
+							{if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}"
+							   role="button"
+							   data-js="popover|modal" data-content="{\App\Language::translate('LBL_NOTIFICATIONS', 'KnowledgeBase')}"
+							   href="#">
+								<span class="fas fa-bell fa-fw"
+									  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
+								<span class="badge badge-dark d-none mr-1">0</span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS', 'KnowledgeBase')}</span>
+							</a>
+							<div id="NotificationModal"></div>
+						</div>
+					{/if}
+					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
+						<div class="o-action-menu__item">
 							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   role="button" data-js="popover"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">

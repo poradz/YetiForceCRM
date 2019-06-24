@@ -340,7 +340,7 @@ var Vtiger_Index_Js = {
 			}, activityReminder);
 		}
 		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
-		if (reminder != 0 && $('.notificationsNotice.autoRefreshing').length) {
+		if (reminder != 0 && $('.js-notifications-badge.autoRefreshing').length) {
 			Vtiger_Index_Js.getNotificationsForReminder();
 			window.reminderNotifications = setInterval(function() {
 				Vtiger_Index_Js.getNotificationsForReminder();
@@ -350,7 +350,7 @@ var Vtiger_Index_Js = {
 	getNotificationsForReminder: function() {
 		var thisInstance = this;
 		var content = $('.remindersNotificationContainer');
-		var element = $('.notificationsNotice');
+		var element = $('.js-notifications-badge');
 		var url = 'index.php?module=Notification&view=Reminders';
 		AppConnector.request(url)
 			.done(function(data) {

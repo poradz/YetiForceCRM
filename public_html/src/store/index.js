@@ -8,14 +8,16 @@
 
 import Vuex from 'vuex'
 import KnowledgeBase from './modules/KnowledgeBase.js'
+import Notification from './modules/Notification.js'
 
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-
+Vue.config.devtools = process.env.NODE_ENV !== 'production'
 const vuexStore = new Vuex.Store({
 	modules: {
-		KnowledgeBase
+		KnowledgeBase,
+		Notification
 	},
 	strict: debug
 })

@@ -727,6 +727,21 @@ $.Class(
 				}
 			});
 		},
+		registerNotificationModal() {
+			$('.js-notification-modal').on('click', () => {
+				// if (window.NotificationModal.state === undefined) {
+				NotificationModalVueComponent.mount({
+					el: '#NotificationModal',
+					state: {
+						moduleName: 'Notification',
+						dialog: true
+					}
+				});
+				// } else {
+				// 	vuexStore.commit('Notification/setDialog', true);
+				// }
+			});
+		},
 		registerEvents: function() {
 			var thisInstance = this;
 			if (typeof Chat_JS !== 'undefined') {
@@ -785,6 +800,7 @@ $.Class(
 
 			thisInstance.registerQuickCreateSearch();
 			thisInstance.registerKnowledgeBaseModal();
+			thisInstance.registerNotificationModal();
 		}
 	}
 );
