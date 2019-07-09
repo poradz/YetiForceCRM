@@ -12,8 +12,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			length: 0
 		};
 		this.calendarContainer = false;
-		this.addCommonMethodsToYearView();
-		this.calendar = this.getCalendarView();
+		// this.addCommonMethodsToYearView();
+		this.calendar = null;
 		this.module = app.getModuleName();
 	}
 
@@ -57,8 +57,13 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		let self = this,
 			basicOptions = this.setCalendarOptions(),
 			options = {
+				plugins: [
+					// 'momentTimezone',
+					'dayGrid'
+				],
+				// timeZone: CONFIG.timeZone,
 				header: {
-					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+					left: 'year,dayGridMonth,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 					center: 'prevYear,prev,title,next,nextYear',
 					right: 'today'
 				},
@@ -73,14 +78,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 						titleFormat: 'YYYY',
 						select: function(start, end) {},
 						loadView: function() {
-							self
-								.getCalendarView()
-								.fullCalendar('getCalendar')
-								.view.render();
+							self.calendar.view.render();
 						}
 					},
-					month: {
-						titleFormat: this.parseDateFormat('month'),
+					dayGridMonth: {
+						titleFormat: this.parseDateFormat('dayGridMonth '),
 						loadView: function() {
 							self.loadCalendarData();
 						}
@@ -131,7 +133,10 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				jsEvent.preventDefault();
 			};
 		}
-		this.calendar.fullCalendar(options);
+		console.log(options);
+		this.calendar = new FullCalendar.Calendar(this.getCalendarView(), options);
+		this.calendar.render();
+		console.log(this.calendar);
 	}
 
 	registerChangeView() {}
@@ -178,7 +183,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.setMainParams('showType', 'history');
 				app.moduleCacheSet('defaultShowType', 'history');
 			}
-			calendarView.fullCalendar('getCalendar').view.options.loadView();
+			this.calendar.view.options.loadView();
 		});
 		$('label.active', switchShowType)
 			.find('input')
@@ -201,8 +206,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				}
 				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
 				calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
-				if (calendarView.fullCalendar('getView').type === 'year') {
-					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
+				if (this.calendar.view.type === 'year') {
+					this.registerViewRenderEvents(this.calendar.view);
 				}
 			});
 			$('label.active', switchSwitchingDays)
@@ -288,7 +293,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
-		} else if (view.type === 'month') {
+		} else if (view.type === 'dayGridMonth ') {
 			nextPrevButtons.show();
 			yearButtons.show();
 		} else {
@@ -307,7 +312,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			case 'year':
 				self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 				break;
-			case 'month':
+			case 'dayGridMonth ':
 				self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
 				break;
 			case 'week':
@@ -502,7 +507,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		sidebar.find('.js-qc-form').html(data);
 		this.showRightPanelForm();
 	}
-	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
+	loadCalendarData(view = this.calendar.view) {
 		const self = this;
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			cvid = self.getCurrentCvId(),
@@ -591,7 +596,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			} else {
 				app.setMainParams('usersId', undefined);
 			}
-			calendarView.fullCalendar('getCalendar').view.options.loadView();
+			this.calendar.view.options.loadView();
 		});
 	}
 
@@ -736,7 +741,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		this.container.find('.js-right-panel-event-link').tab('show');
 		let start_hour = app.getMainParams('startHour'),
 			end_hour = app.getMainParams('endHour'),
-			view = this.getCalendarView().fullCalendar('getView');
+			view = this.calendar.view;
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
@@ -819,18 +824,17 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					if (calendarView.fullCalendar('clientEvents', data.result._recordId)[0]) {
 						self.updateCalendarEvent(data.result._recordId, data.result);
 					} else {
-						const calendarInstance = calendarView.fullCalendar('getCalendar');
-						if (calendarInstance.view.type !== 'year') {
-							calendarInstance.view.options.addCalendarEvent(data.result);
+						if (this.calendar.view.type !== 'year') {
+							this.calendar.view.options.addCalendarEvent(data.result);
 						} else {
-							calendarInstance.view.render();
+							this.calendar.view.render();
 						}
 						if (data.result.followup.value !== undefined) {
 							calendarView.fullCalendar('removeEvents', data.result.followup.value);
 						}
 					}
 				}
-				self.refreshDatesRowView(calendarView.fullCalendar('getView'));
+				self.refreshDatesRowView(this.calendar.view);
 				self
 					.getSidebarView()
 					.find('.js-qc-form')

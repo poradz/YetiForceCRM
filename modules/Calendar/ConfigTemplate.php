@@ -20,13 +20,13 @@ return [
 	],
 	'SHOW_TIMELINE_WEEK' => [
 		'default' => true,
-		'description' => 'Show calendar timeline in monthly view:  false = basicWeek, true = agendaWeek',
+		'description' => 'Show calendar timeline in monthly view:  false = dayGridWeek, true = timeGridWeek ',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
 	'SHOW_TIMELINE_DAY' => [
 		'default' => true,
-		'description' => 'Show calendar timeline in day view: false = basicDay, true = agendaDay',
+		'description' => 'Show calendar timeline in day view: false = dayGridDay, true = timeGridDay',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
@@ -134,7 +134,7 @@ return [
 	],
 	'ALL_DAY_SLOT' => [
 		'default' => true,
-		'description' => 'Shows "all day" row in agendaWeek and agendaDay view'
+		'description' => 'Shows "all day" row in timeGridWeek  and timeGridDay view'
 	],
 	'EXPORT_SUPPORTED_FILE_FORMATS' => [
 		'default' => ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml', 'LBL_ICAL' => 'ical'],

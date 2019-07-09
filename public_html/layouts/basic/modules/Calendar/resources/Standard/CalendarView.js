@@ -110,7 +110,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
       if (data.length <= 0) {
         return;
       }
-      if (view.name != "agendaDay" && view.name != "agendaWeek") {
+      if (view.name != "timeGridDay" && view.name != "timeGridWeek ") {
         startDate = startDate + "T" + start_hour + ":00";
         endDate = endDate + "T" + start_hour + ":00";
         if (startDate == endDate) {

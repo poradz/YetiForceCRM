@@ -9,6 +9,7 @@ window.Calendar_Js = class {
 	 * @param {bool} readonly
 	 */
 	constructor(container = $('.js-base-container'), readonly = false) {
+		this.calendar = null;
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
@@ -52,7 +53,7 @@ window.Calendar_Js = class {
 		} else if (userDefaultActivityView === 'This Week') {
 			userDefaultActivityView = app.getMainParams('weekView');
 		} else {
-			userDefaultActivityView = 'month';
+			userDefaultActivityView = 'dayGridMonth';
 		}
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
@@ -74,33 +75,33 @@ window.Calendar_Js = class {
 			eventLimitText: app.vtranslate('JS_MORE'),
 			selectHelper: true,
 			scrollTime: app.getMainParams('startHour') + ':00',
-			monthNamesShort: [
-				app.vtranslate('JS_JAN'),
-				app.vtranslate('JS_FEB'),
-				app.vtranslate('JS_MAR'),
-				app.vtranslate('JS_APR'),
-				app.vtranslate('JS_MAY'),
-				app.vtranslate('JS_JUN'),
-				app.vtranslate('JS_JUL'),
-				app.vtranslate('JS_AUG'),
-				app.vtranslate('JS_SEP'),
-				app.vtranslate('JS_OCT'),
-				app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')
-			],
-			dayNames: [
-				app.vtranslate('JS_SUNDAY'),
-				app.vtranslate('JS_MONDAY'),
-				app.vtranslate('JS_TUESDAY'),
-				app.vtranslate('JS_WEDNESDAY'),
-				app.vtranslate('JS_THURSDAY'),
-				app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')
-			],
+			// monthNamesShort: [
+			// 	app.vtranslate('JS_JAN'),
+			// 	app.vtranslate('JS_FEB'),
+			// 	app.vtranslate('JS_MAR'),
+			// 	app.vtranslate('JS_APR'),
+			// 	app.vtranslate('JS_MAY'),
+			// 	app.vtranslate('JS_JUN'),
+			// 	app.vtranslate('JS_JUL'),
+			// 	app.vtranslate('JS_AUG'),
+			// 	app.vtranslate('JS_SEP'),
+			// 	app.vtranslate('JS_OCT'),
+			// 	app.vtranslate('JS_NOV'),
+			// 	app.vtranslate('JS_DEC')
+			// ],
+			// dayNames: [
+			// 	app.vtranslate('JS_SUNDAY'),
+			// 	app.vtranslate('JS_MONDAY'),
+			// 	app.vtranslate('JS_TUESDAY'),
+			// 	app.vtranslate('JS_WEDNESDAY'),
+			// 	app.vtranslate('JS_THURSDAY'),
+			// 	app.vtranslate('JS_FRIDAY'),
+			// 	app.vtranslate('JS_SATURDAY')
+			// ],
 			buttonText: {
 				today: app.vtranslate('JS_CURRENT'),
 				year: app.vtranslate('JS_YEAR'),
-				month: app.vtranslate('JS_MONTH'),
+				dayGridMonth: app.vtranslate('JS_MONTH'),
 				week: app.vtranslate('JS_WEEK'),
 				day: app.vtranslate('JS_DAY')
 			},
@@ -109,8 +110,9 @@ window.Calendar_Js = class {
 		if (app.moduleCacheGet('start') !== null) {
 			let s = moment(app.moduleCacheGet('start')).valueOf();
 			let e = moment(app.moduleCacheGet('end')).valueOf();
-			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
+			// options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
 		}
+		console.log(Object.assign(this.setCalendarMinimalOptions(), options));
 		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}
 
@@ -143,7 +145,7 @@ window.Calendar_Js = class {
 		};
 		let formatDate = CONFIG.dateFormat;
 		switch (partOfDate) {
-			case 'month':
+			case 'dayGridMonth':
 				return parseMonthFormat[formatDate];
 				break;
 			case 'week':
@@ -167,30 +169,30 @@ window.Calendar_Js = class {
 		return {
 			firstDay: CONFIG.firstDayOfWeekNo,
 			selectable: true,
-			hiddenDays: hiddenDays,
-			monthNames: [
-				app.vtranslate('JS_JANUARY'),
-				app.vtranslate('JS_FEBRUARY'),
-				app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'),
-				app.vtranslate('JS_MAY'),
-				app.vtranslate('JS_JUNE'),
-				app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'),
-				app.vtranslate('JS_SEPTEMBER'),
-				app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'),
-				app.vtranslate('JS_DECEMBER')
-			],
-			dayNamesShort: [
-				app.vtranslate('JS_SUN'),
-				app.vtranslate('JS_MON'),
-				app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'),
-				app.vtranslate('JS_THU'),
-				app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')
-			]
+			hiddenDays: hiddenDays
+			// monthNames: [
+			// 	app.vtranslate('JS_JANUARY'),
+			// 	app.vtranslate('JS_FEBRUARY'),
+			// 	app.vtranslate('JS_MARCH'),
+			// 	app.vtranslate('JS_APRIL'),
+			// 	app.vtranslate('JS_MAY'),
+			// 	app.vtranslate('JS_JUNE'),
+			// 	app.vtranslate('JS_JULY'),
+			// 	app.vtranslate('JS_AUGUST'),
+			// 	app.vtranslate('JS_SEPTEMBER'),
+			// 	app.vtranslate('JS_OCTOBER'),
+			// 	app.vtranslate('JS_NOVEMBER'),
+			// 	app.vtranslate('JS_DECEMBER')
+			// ],
+			// dayNamesShort: [
+			// 	app.vtranslate('JS_SUN'),
+			// 	app.vtranslate('JS_MON'),
+			// 	app.vtranslate('JS_TUE'),
+			// 	app.vtranslate('JS_WED'),
+			// 	app.vtranslate('JS_THU'),
+			// 	app.vtranslate('JS_FRI'),
+			// 	app.vtranslate('JS_SAT')
+			// ]
 		};
 	}
 
@@ -202,7 +204,7 @@ window.Calendar_Js = class {
 		let self = this;
 		return {
 			header: {
-				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+				left: 'dayGridMonth,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 				center: 'title today',
 				right: 'prev,next'
 			},
@@ -211,8 +213,8 @@ window.Calendar_Js = class {
 				basic: {
 					eventLimit: false
 				},
-				month: {
-					titleFormat: this.parseDateFormat('month')
+				dayGridMonth: {
+					titleFormat: this.parseDateFormat('dayGridMonth')
 				},
 				week: {
 					titleFormat: this.parseDateFormat('week')
@@ -230,8 +232,8 @@ window.Calendar_Js = class {
 			viewRender: function() {
 				self.loadCalendarData();
 			},
-			eventRender: self.eventRenderer,
-			height: this.setCalendarHeight(this.container)
+			eventRender: self.eventRenderer
+			// height: this.setCalendarHeight(this.container)
 		};
 	}
 
@@ -387,7 +389,7 @@ window.Calendar_Js = class {
 	 * Invokes fullcalendar with options.
 	 */
 	renderCalendar() {
-		this.getCalendarView().fullCalendar(this.calendarOptions);
+		this.calendar = new FullCalendar.Calendar(this.getCalendarView(), this.calendarOptions);
 	}
 
 	/**
@@ -420,7 +422,7 @@ window.Calendar_Js = class {
 	 */
 	getDefaultParams() {
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
-			view = this.getCalendarView().fullCalendar('getView'),
+			view = this.calendar.view,
 			users = app.moduleCacheGet('calendar-users') || CONFIG.userId;
 		let params = {
 			module: CONFIG.module,
@@ -728,9 +730,9 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 			let endDateInstance = Date.parse(date);
 			let endDateString = moment(date).format(dateFormat);
 
-			let view = self.getCalendarView().fullCalendar('getView');
+			let view = self.calendar.view;
 			let endTimeString;
-			if ('month' == view.name) {
+			if ('dayGridMonth' == view.name) {
 				let diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
 				if (diffDays > 1) {
 					let defaultFirstHour = app.getMainParams('startHour');

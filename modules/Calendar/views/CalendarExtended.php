@@ -41,12 +41,16 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/@fullcalendar/core/main.js',
+			'~libraries/@fullcalendar/daygrid/main.js',
+			'~libraries/moment-timezone/moment-timezone.js',
+			'~libraries/@fullcalendar/moment/main.js',
+			'~libraries/@fullcalendar/moment-timezone/main.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~layouts/resources/Calendar.js',
 			'modules.Calendar.resources.Standard.CalendarView',
-			'modules.Calendar.resources.Extended.YearView',
+			'modules/Calendar/resources/Extended/YearView',
 			'modules.Calendar.resources.Extended.CalendarView',
 		]));
 	}
