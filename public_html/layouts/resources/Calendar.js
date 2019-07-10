@@ -275,16 +275,21 @@ window.Calendar_Js = class {
 	 * @param {Object} event
 	 * @param {jQuery} element
 	 */
-	eventRenderer(event, element) {
-		element.find('.fc-title').html(event.title);
-		if (event.rendering === 'background') {
-			element.append(
-				`<span class="js-popover-text d-block"><span class="${event.icon} js-popover-icon mr-1"></span>${
-					event.title
+	eventRenderer(info) {
+		console.log(info);
+		$(info.el)
+			.find('.fc-title')
+			.html(info.event.title);
+		if (info.event.rendering === 'background') {
+			$(info.el).append(
+				`<span class="js-popover-text d-block"><span class="${info.event.icon} js-popover-icon mr-1"></span>${
+					info.event.title
 				}</span>`
 			);
-			element.addClass('js-popover-tooltip--ellipsis').attr('data-content', event.title);
-			app.registerPopoverEllipsis(element);
+			$(info.el)
+				.addClass('js-popover-tooltip--ellipsis')
+				.attr('data-content', info.event.title);
+			app.registerPopoverEllipsis($(info.el));
 		}
 	}
 
@@ -315,7 +320,7 @@ window.Calendar_Js = class {
 			};
 			calendarH = setCalendarH();
 			new ResizeSensor(this.container.find('.contentsDiv'), () => {
-				calendarContainer.fullCalendar('option', 'height', setCalendarH());
+				this.calendar.setOption('height', setCalendarH());
 				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
 			});
 		} else if ($(window).width() < 993) {

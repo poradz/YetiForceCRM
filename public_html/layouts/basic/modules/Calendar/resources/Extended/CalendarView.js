@@ -59,6 +59,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			options = {
 				plugins: [
 					// 'momentTimezone',
+					'momentPlugin',
 					'YearView',
 					'dayGrid'
 				],
@@ -183,7 +184,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.setMainParams('showType', 'history');
 				app.moduleCacheSet('defaultShowType', 'history');
 			}
-			this.calendar.viewSpecs[this.calendar.view.type].options.loadView();
+			this.calendar.view.viewSpec.options.loadView();
 		});
 		$('label.active', switchShowType)
 			.find('input')
@@ -204,8 +205,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					app.setMainParams('switchingDays', 'all');
 					app.moduleCacheSet('defaultSwitchingDays', 'all');
 				}
-				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
-				calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
+				this.calendar.setOption('hiddenDays', hiddenDays);
+				this.calendar.setOption('height', this.setCalendarHeight());
 				if (this.calendar.view.type === 'year') {
 					this.registerViewRenderEvents(this.calendar.view);
 				}
@@ -283,12 +284,20 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		if (!window.calendarLoaded) {
-			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
-			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
+			yearButtons
+				.first()
+				.html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.viewSpec.options.buttonText['year']}`);
+			yearButtons
+				.last()
+				.html(`${view.viewSpec.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type !== 'year') {
-			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
-			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
+			nextPrevButtons
+				.first()
+				.html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.viewSpec.options.buttonText[viewType]}`);
+			nextPrevButtons
+				.last()
+				.html(`${view.viewSpec.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
@@ -310,10 +319,10 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		const self = this;
 		switch (calendarView.type) {
 			case 'year':
-				self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
+				self.generateYearList(calendarView.currentStart, calendarView.currentEnd);
 				break;
 			case 'dayGridMonth ':
-				self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
+				self.generateSubMonthList(calendarView.currentStart, calendarView.currentEnd);
 				break;
 			case 'week':
 			case 'agendaWeek':
@@ -348,7 +357,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				thisInstance
 					.getCalendarView()
 					.fullCalendar('getCalendar')
-					.view.options.loadView();
+					.view.viewSpec.options.loadView();
 			});
 	}
 
@@ -523,24 +532,23 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		}
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
-			self.selectDays(view.start, view.end);
+			self.selectDays(view.activeStart, view.activeEnd);
 			view.end = view.end.add(1, 'day');
 		}
-		console.log(formatDate)
 		let options = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEvents',
-			start: view.currentStart.format(formatDate),
-			end: view.currentEnd.format(formatDate),
+			start: moment(view.activeStart).format(formatDate),
+			end: moment(view.activeEnd).format(formatDate),
 			user: user,
 			time: app.getMainParams('showType'),
 			cvid: cvid,
-			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${
-				view.type
-			}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams(
+			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${moment(
+				view.activeStart
+			).format(formatDate)}&end=${moment(view.activeEnd).format(formatDate)}&user=${user}&time=${app.getMainParams(
 				'showType'
-			)}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
+			)}&cvid=${cvid}&hiddenDays=${view.viewSpec.options.hiddenDays}`
 		};
 		let connectorMethod = window['AppConnector']['request'];
 		if (!this.readonly && window.calendarLoaded) {
@@ -561,8 +569,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		connectorMethod(options).done(events => {
 			this.calendar.batchRendering(_ => {
 				// calendarInstance.fullCalendar('removeEvents');
-				console.log(events.result)
-				calendarInstance.fullCalendar('addEventSource', events.result);
+				console.log(events.result);
+				this.calendar.addEventSource(events.result);
 			});
 			progressInstance.progressIndicator({ mode: 'hide' });
 		});
@@ -600,7 +608,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			} else {
 				app.setMainParams('usersId', undefined);
 			}
-			this.calendar.viewSpecs[this.calendar.view.type].options.loadView();
+			this.calendar.view.viewSpec.options.loadView();
 		});
 	}
 
@@ -805,7 +813,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
 			this.getCalendarView()
 				.fullCalendar('getCalendar')
-				.view.options.loadView();
+				.view.viewSpec.options.loadView();
 		});
 		this.registerPinUser();
 	}
@@ -829,7 +837,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 						self.updateCalendarEvent(data.result._recordId, data.result);
 					} else {
 						if (this.calendar.view.type !== 'year') {
-							this.calendar.view.options.addCalendarEvent(data.result);
+							this.calendar.view.viewSpec.options.addCalendarEvent(data.result);
 						} else {
 							this.calendar.view.render();
 						}
