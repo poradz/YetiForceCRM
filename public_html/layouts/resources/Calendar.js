@@ -68,6 +68,7 @@ window.Calendar_Js = class {
 			slotLabelFormat: userDefaultTimeFormat,
 			defaultView: userDefaultActivityView,
 			slotMinutes: 15,
+			locale: 'pl',
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
@@ -75,29 +76,6 @@ window.Calendar_Js = class {
 			eventLimitText: app.vtranslate('JS_MORE'),
 			selectHelper: true,
 			scrollTime: app.getMainParams('startHour') + ':00',
-			// monthNamesShort: [
-			// 	app.vtranslate('JS_JAN'),
-			// 	app.vtranslate('JS_FEB'),
-			// 	app.vtranslate('JS_MAR'),
-			// 	app.vtranslate('JS_APR'),
-			// 	app.vtranslate('JS_MAY'),
-			// 	app.vtranslate('JS_JUN'),
-			// 	app.vtranslate('JS_JUL'),
-			// 	app.vtranslate('JS_AUG'),
-			// 	app.vtranslate('JS_SEP'),
-			// 	app.vtranslate('JS_OCT'),
-			// 	app.vtranslate('JS_NOV'),
-			// 	app.vtranslate('JS_DEC')
-			// ],
-			// dayNames: [
-			// 	app.vtranslate('JS_SUNDAY'),
-			// 	app.vtranslate('JS_MONDAY'),
-			// 	app.vtranslate('JS_TUESDAY'),
-			// 	app.vtranslate('JS_WEDNESDAY'),
-			// 	app.vtranslate('JS_THURSDAY'),
-			// 	app.vtranslate('JS_FRIDAY'),
-			// 	app.vtranslate('JS_SATURDAY')
-			// ],
 			buttonText: {
 				today: app.vtranslate('JS_CURRENT'),
 				year: app.vtranslate('JS_YEAR'),
@@ -110,9 +88,8 @@ window.Calendar_Js = class {
 		if (app.moduleCacheGet('start') !== null) {
 			let s = moment(app.moduleCacheGet('start')).valueOf();
 			let e = moment(app.moduleCacheGet('end')).valueOf();
-			// options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
+			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'))._i;
 		}
-		console.log(Object.assign(this.setCalendarMinimalOptions(), options));
 		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}
 
@@ -170,29 +147,6 @@ window.Calendar_Js = class {
 			firstDay: CONFIG.firstDayOfWeekNo,
 			selectable: true,
 			hiddenDays: hiddenDays
-			// monthNames: [
-			// 	app.vtranslate('JS_JANUARY'),
-			// 	app.vtranslate('JS_FEBRUARY'),
-			// 	app.vtranslate('JS_MARCH'),
-			// 	app.vtranslate('JS_APRIL'),
-			// 	app.vtranslate('JS_MAY'),
-			// 	app.vtranslate('JS_JUNE'),
-			// 	app.vtranslate('JS_JULY'),
-			// 	app.vtranslate('JS_AUGUST'),
-			// 	app.vtranslate('JS_SEPTEMBER'),
-			// 	app.vtranslate('JS_OCTOBER'),
-			// 	app.vtranslate('JS_NOVEMBER'),
-			// 	app.vtranslate('JS_DECEMBER')
-			// ],
-			// dayNamesShort: [
-			// 	app.vtranslate('JS_SUN'),
-			// 	app.vtranslate('JS_MON'),
-			// 	app.vtranslate('JS_TUE'),
-			// 	app.vtranslate('JS_WED'),
-			// 	app.vtranslate('JS_THU'),
-			// 	app.vtranslate('JS_FRI'),
-			// 	app.vtranslate('JS_SAT')
-			// ]
 		};
 	}
 
@@ -232,8 +186,8 @@ window.Calendar_Js = class {
 			viewRender: function() {
 				self.loadCalendarData();
 			},
-			eventRender: self.eventRenderer
-			// height: this.setCalendarHeight(this.container)
+			eventRender: self.eventRenderer,
+			height: this.setCalendarHeight(this.container)
 		};
 	}
 
