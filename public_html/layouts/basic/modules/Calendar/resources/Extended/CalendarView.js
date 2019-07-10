@@ -59,6 +59,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			options = {
 				plugins: [
 					// 'momentTimezone',
+					'YearView',
 					'dayGrid'
 				],
 				// timeZone: CONFIG.timeZone,
@@ -133,8 +134,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				jsEvent.preventDefault();
 			};
 		}
-		console.log(options);
-		this.calendar = new FullCalendar.Calendar(this.getCalendarView(), options);
+		this.calendar = new FullCalendar.Calendar(this.getCalendarView()[0], options);
 		this.calendar.render();
 		console.log(this.calendar);
 	}
@@ -183,7 +183,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.setMainParams('showType', 'history');
 				app.moduleCacheSet('defaultShowType', 'history');
 			}
-			this.calendar.view.options.loadView();
+			this.calendar.viewSpecs[this.calendar.view.type].options.loadView();
 		});
 		$('label.active', switchShowType)
 			.find('input')
@@ -512,7 +512,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
-		calendarInstance.fullCalendar('removeEvents');
+		// calendarInstance.fullCalendar('removeEvents');
 		let progressInstance = $.progressIndicator({ blockInfo: { enabled: true } }),
 			user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
@@ -526,12 +526,13 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
+		console.log(formatDate)
 		let options = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEvents',
-			start: view.start.format(formatDate),
-			end: view.end.format(formatDate),
+			start: view.currentStart.format(formatDate),
+			end: view.currentEnd.format(formatDate),
 			user: user,
 			time: app.getMainParams('showType'),
 			cvid: cvid,
@@ -558,8 +559,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
 		connectorMethod(options).done(events => {
-			calendarInstance.fullCalendar('removeEvents');
-			calendarInstance.fullCalendar('addEventSource', events.result);
+			this.calendar.batchRendering(_ => {
+				// calendarInstance.fullCalendar('removeEvents');
+				console.log(events.result)
+				calendarInstance.fullCalendar('addEventSource', events.result);
+			});
 			progressInstance.progressIndicator({ mode: 'hide' });
 		});
 		self.registerViewRenderEvents(view);
@@ -596,7 +600,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			} else {
 				app.setMainParams('usersId', undefined);
 			}
-			this.calendar.view.options.loadView();
+			this.calendar.viewSpecs[this.calendar.view.type].options.loadView();
 		});
 	}
 
