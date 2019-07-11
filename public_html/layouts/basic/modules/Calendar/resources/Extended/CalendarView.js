@@ -126,13 +126,13 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			};
 		options = Object.assign(basicOptions, options);
 		if (!this.readonly) {
-			options.eventClick = function(calEvent, jsEvent) {
-				jsEvent.preventDefault();
-				self.getCalendarSidebarData($(this).attr('href'));
+			options.eventClick = function(info) {
+				info.jsEvent.preventDefault();
+				self.getCalendarSidebarData(info.el.baseURI);
 			};
 		} else {
-			options.eventClick = function(calEvent, jsEvent) {
-				jsEvent.preventDefault();
+			options.eventClick = function(info) {
+				info.jsEvent.preventDefault();
 			};
 		}
 		this.calendar = new FullCalendar.Calendar(this.getCalendarView()[0], options);
@@ -350,14 +350,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	}
 
 	registerFilterTabChange() {
-		const thisInstance = this;
+		const self = this;
 		this.getCalendarView()
 			.find('.js-calendar__extended-filter-tab')
 			.on('shown.bs.tab', function() {
-				thisInstance
-					.getCalendarView()
-					.fullCalendar('getCalendar')
-					.view.viewSpec.options.loadView();
+				self.calendar.view.viewSpec.options.loadView();
 			});
 	}
 
@@ -811,9 +808,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	registerUsersChange(formContainer) {
 		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
-			this.getCalendarView()
-				.fullCalendar('getCalendar')
-				.view.viewSpec.options.loadView();
+			this.calendar.view.viewSpec.options.loadView();
 		});
 		this.registerPinUser();
 	}
@@ -833,7 +828,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					inHistoryStatus = $.inArray(recordActivityStatus, historyStatus),
 					showType = app.getMainParams('showType');
 				if ((-1 !== inHistoryStatus && 'history' === showType) || (-1 === inHistoryStatus && 'history' !== showType)) {
-					if (calendarView.fullCalendar('clientEvents', data.result._recordId)[0]) {
+					if (this.calendar.getEventById(data.result._recordId)) {
 						self.updateCalendarEvent(data.result._recordId, data.result);
 					} else {
 						if (this.calendar.view.type !== 'year') {
@@ -924,7 +919,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 */
 	updateCalendarEvent(calendarEventId, calendarDetails) {
 		const calendar = this.getCalendarView();
-		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
+		let recordToUpdate = this.calendar.getEventById(calendarEventId);
 		$.extend(recordToUpdate, this.getEventData(calendarDetails));
 		calendar.fullCalendar('updateEvent', recordToUpdate);
 	}
