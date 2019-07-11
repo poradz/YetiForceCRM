@@ -146,6 +146,7 @@ window.Calendar_Js = class {
 		return {
 			firstDay: CONFIG.firstDayOfWeekNo,
 			selectable: true,
+			navLinks: true,
 			hiddenDays: hiddenDays
 		};
 	}
