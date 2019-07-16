@@ -57,14 +57,6 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		let self = this,
 			basicOptions = this.setCalendarOptions(),
 			options = {
-				plugins: [
-					// 'momentTimezone',
-					'momentPlugin',
-					'interaction',
-					'YearView',
-					'dayGrid'
-				],
-				// timeZone: CONFIG.timeZone,
 				header: {
 					left: 'year,dayGridMonth,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 					center: 'prevYear,prev,title,next,nextYear',

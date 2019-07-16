@@ -9,7 +9,10 @@ window.Calendar_Js = class {
 	 * @param {bool} readonly
 	 */
 	constructor(container = $('.js-base-container'), readonly = false) {
+		window.FullCalendarMomentPlugin = window.FullCalendarMoment; //fixing fullcalendar bug (incorrect plugin name)
+		window.FullCalendarTimegrid = window.FullCalendarTimeGrid; //fixing fullcalendar bug (incorrect plugin name)
 		this.FCDateFormat = 'YYYY-MM-DD';
+		this.plugins = ['interaction', 'momentPlugin', 'dayGrid', 'timegrid', 'bootstrap'];
 		this.calendar = null;
 		this.calendarView = false;
 		this.calendarCreateView = false;
@@ -65,11 +68,14 @@ window.Calendar_Js = class {
 			userDefaultTimeFormat = 'h:mmt';
 		}
 		let options = {
+			plugins: this.plugins,
 			timeFormat: userDefaultTimeFormat,
 			slotLabelFormat: userDefaultTimeFormat,
 			defaultView: userDefaultActivityView,
 			slotMinutes: 15,
-			locale: 'pl',
+			locale: CONFIG.langKey,
+			themeSystem: 'bootstrap',
+			// timeZone: CONFIG.timeZone,
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
@@ -125,13 +131,10 @@ window.Calendar_Js = class {
 		switch (partOfDate) {
 			case 'dayGridMonth':
 				return parseMonthFormat[formatDate];
-				break;
 			case 'week':
 				return parseWeekAndDayFormat[formatDate];
-				break;
 			case 'day':
 				return parseWeekAndDayFormat[formatDate];
-				break;
 		}
 	}
 
@@ -212,7 +215,6 @@ window.Calendar_Js = class {
 			delta: delta,
 			allDay: event.allDay
 		};
-		console.log(params);
 		AppConnector.request(params)
 			.done(function(response) {
 				if (!response['result']) {
@@ -352,7 +354,8 @@ window.Calendar_Js = class {
 	 * Invokes fullcalendar with options.
 	 */
 	renderCalendar() {
-		this.calendar = new FullCalendar.Calendar(this.getCalendarView(), this.calendarOptions);
+		this.calendar = new FullCalendar.Calendar(this.getCalendarView()[0], this.calendarOptions);
+		this.calendar.render();
 	}
 
 	/**

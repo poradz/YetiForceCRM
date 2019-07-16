@@ -49,7 +49,14 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 			unset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar']);
 		}
 		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
-			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/@fullcalendar/core/main.js',
+			'~libraries/@fullcalendar/daygrid/main.js',
+			'~libraries/@fullcalendar/timegrid/main.js',
+			'~libraries/@fullcalendar/bootstrap/main.js',
+			'~libraries/@fullcalendar/interaction/main.js',
+			// '~libraries/moment-timezone/moment-timezone.js',
+			'~libraries/@fullcalendar/moment/main.js',
+			// '~libraries/@fullcalendar/moment-timezone/main.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~layouts/resources/Calendar.js',
@@ -63,7 +70,10 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/fullcalendar/dist/fullcalendar.css',
+			// '~libraries/@fullcalendar/core/main.min.css',
+			'~libraries/@fullcalendar/daygrid/main.css',
+			'~libraries/@fullcalendar/timegrid/main.css',
+			'~libraries/@fullcalendar/bootstrap/main.css'
 		]));
 	}
 }
