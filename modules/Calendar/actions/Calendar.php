@@ -193,11 +193,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		if ($delta['days'] != 0) {
 			$date = $date->modify('+' . $delta['days'] . ' days');
 		}
-		if ($delta['hours'] != 0) {
-			$date = $date->modify('+' . $delta['hours'] . ' hours');
-		}
-		if ($delta['minutes'] != 0) {
-			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
+		if ($delta['milliseconds'] != 0) {
+			$date = $date->modify('+' . $delta['milliseconds'] / 360 . ' hours');
+			$date = $date->modify('+' . $delta['milliseconds'] / 60 . ' minutes');
 		}
 		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
 	}

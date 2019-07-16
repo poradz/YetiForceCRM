@@ -199,18 +199,20 @@ window.Calendar_Js = class {
 	 * @param {Object} delta
 	 * @param {Object} revertFunc
 	 */
-	updateEvent(event, delta, revertFunc) {
+	updateEvent({ event, delta, revertFunc }) {
 		let progressInstance = jQuery.progressIndicator({ blockInfo: { enabled: true } });
-		let start = event.start.format();
+		let start = FullCalendarMoment.toMoment(event.start, this.calendar).format();
+		console.log(start, delta);
 		let params = {
 			module: CONFIG.module,
 			action: 'Calendar',
 			mode: 'updateEvent',
 			id: event.id,
 			start: start,
-			delta: delta._data,
+			delta: delta,
 			allDay: event.allDay
 		};
+		console.log(params);
 		AppConnector.request(params)
 			.done(function(response) {
 				if (!response['result']) {
