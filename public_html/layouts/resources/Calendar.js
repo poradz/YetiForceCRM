@@ -9,6 +9,7 @@ window.Calendar_Js = class {
 	 * @param {bool} readonly
 	 */
 	constructor(container = $('.js-base-container'), readonly = false) {
+		this.FCDateFormat = 'YYYY-MM-DD';
 		this.calendar = null;
 		this.calendarView = false;
 		this.calendarCreateView = false;

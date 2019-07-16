@@ -60,6 +60,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				plugins: [
 					// 'momentTimezone',
 					'momentPlugin',
+					'interaction',
 					'YearView',
 					'dayGrid'
 				],
@@ -108,9 +109,10 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 						}
 					}
 				},
-				select: function(start, end) {
+				select: function({ start, end }) {
+					console.log(start);
 					self.selectDays(start, end);
-					self.getCalendarView().fullCalendar('unselect');
+					self.calendar.unselect();
 				},
 				eventRender: function(event, element) {
 					self.eventRenderer(event, element);
@@ -125,10 +127,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				}
 			};
 		options = Object.assign(basicOptions, options);
+		console.log(options);
 		if (!this.readonly) {
 			options.eventClick = function(info) {
 				info.jsEvent.preventDefault();
-				self.getCalendarSidebarData(info.el.baseURI);
+				self.getCalendarSidebarData(info.el.getAttribute('href'));
 			};
 		} else {
 			options.eventClick = function(info) {
@@ -747,21 +750,26 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	}
 
 	selectDays(startDate, endDate) {
+		console.log(startDate);
 		this.container.find('.js-right-panel-event-link').tab('show');
 		let start_hour = app.getMainParams('startHour'),
 			end_hour = app.getMainParams('endHour'),
 			view = this.calendar.view;
-		if (endDate.hasTime() == false) {
+		startDate = FullCalendarMoment.toMoment(startDate, this.calendar);
+		endDate = FullCalendarMoment.toMoment(endDate, this.calendar);
+		console.log(endDate);
+		if (!endDate.hour()) {
 			endDate.add(-1, 'days');
 		}
-		startDate = startDate.format();
-		endDate = endDate.format();
+		startDate = startDate.format(this.FCDateFormat);
+		endDate = endDate.format(this.FCDateFormat);
 		if (start_hour == '') {
 			start_hour = '00';
 		}
 		if (end_hour == '') {
 			end_hour = '00';
 		}
+		console.log(startDate, endDate);
 		this.getCalendarCreateView().done(function(data) {
 			if (data.length <= 0) {
 				return;

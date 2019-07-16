@@ -43,6 +43,7 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/@fullcalendar/core/main.js',
 			'~libraries/@fullcalendar/daygrid/main.js',
+			'~libraries/@fullcalendar/interaction/main.js',
 			'~libraries/moment-timezone/moment-timezone.js',
 			'~libraries/@fullcalendar/moment/main.js',
 			'~libraries/@fullcalendar/moment-timezone/main.js',

@@ -20,14 +20,14 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
-				selectable: self.eventCreate,
+				selectable: self.eventCreate ? true : false,
 				select: function(start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
 				},
 				eventClick: function(info) {
 					info.jsEvent.preventDefault();
-					var link = new URL(info.el.baseURI);
+					var link = new URL(info.el.getAttribute('href'));
 					var progressInstance = jQuery.progressIndicator({
 						blockInfo: { enabled: true }
 					});
