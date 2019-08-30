@@ -28,7 +28,7 @@
 				<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
 					<div class="input-group phoneGroup mb-1">
 						<div class="input-group-prepend m-0 p-0">
-							<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
+							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$FIELD_MODEL->get('tabindex')}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
 								{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
 									{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
 									<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
@@ -55,7 +55,7 @@
 				{/if}
 			</div>
 		{else}
-			<input name="{$FIELD_MODEL->getFieldName()}" value="{\App\Purifier::encodeHtml($NUMBER)}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" placeholder="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-advanced-verification="0" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $FIELD_MODEL->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL->get('fieldparams')}'"{/if} />
+			<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->get('tabindex')}" value="{\App\Purifier::encodeHtml($NUMBER)}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" placeholder="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-advanced-verification="0" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $FIELD_MODEL->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL->get('fieldparams')}'"{/if} />
 		{/if}
 	</div>
 	<!-- /tpl-Base-Edit-Field-Phone -->

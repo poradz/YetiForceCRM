@@ -12,7 +12,7 @@
 		<div class="col-2">
 			<span class="input-group-prepend"
 				  title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
-				<button type="button" class="btn btn-light configButton btn-outline-secondary">
+				<button type="button" class="btn btn-light configButton btn-outline-secondary" tabindex="{$FIELD_MODEL->get('tabindex')}">
 					<span class="fas fa-cog"></span>
 				</button>
 			</span>
@@ -22,15 +22,15 @@
 		 data-name="{$FIELD_MODEL->getName()}">
 		<input name="{$FIELD_MODEL->getName()}"
 			   value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}"
-			   type="text"
+			   type="text" tabindex="{$FIELD_MODEL->get('tabindex')}"
 			   class="form-control" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled="disabled"{/if}
 			   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
 		<span class="input-group-prepend">
-			<button class="btn btn-light varibleToParsers" type="button">
+			<button class="btn btn-light varibleToParsers" type="button" tabindex="{$FIELD_MODEL->get('tabindex')}">
 				<span class="fas fa-edit"></span>
 			</button>
-			<button class="btn btn-light active configButton" type="button"
+			<button class="btn btn-light active configButton" type="button" tabindex="{$FIELD_MODEL->get('tabindex')}"
 					title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
 				<span class="fas fa-cog"></span>
 			</button>

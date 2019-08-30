@@ -29,7 +29,7 @@
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
-				<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
+				<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{$FIELD_MODEL->get('tabindex')}"
 					   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					   class="currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}"
 					   name="{$FIELD_MODEL->getFieldName()}"

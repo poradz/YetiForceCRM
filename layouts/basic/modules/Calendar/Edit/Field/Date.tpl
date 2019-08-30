@@ -15,7 +15,7 @@
 	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	<div class="tpl-Edit-Field-Date input-group date">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{$FIELD_MODEL->get('tabindex')}"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control datepicker"
 			   name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}" type="text"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"

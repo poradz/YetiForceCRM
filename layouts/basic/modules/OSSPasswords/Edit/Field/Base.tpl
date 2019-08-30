@@ -8,7 +8,7 @@
 		{assign var="VALIDATE_STRINGS" value=""}
 	{/if}
 	<div class="tpl-Detail-Field-Base input-group">
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{$FIELD_MODEL->get('tabindex')}"
 			   class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   name="{$FIELD_MODEL->getFieldName()}"
@@ -30,7 +30,7 @@
 		{if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')}
 			<div class="input-group-append">
 				{if $RECORD && $RECORD->getId() neq ''}
-					<button class="btn btn-warning btn-md"
+					<button class="btn btn-warning btn-md" tabindex="{$FIELD_MODEL->get('tabindex')}"
 							onclick="PasswordHelper.showPassword('{$RECORD->getId()}'); return false;"
 							id="show-btn">
 						{\App\Language::translate('LBL_ShowPassword', $MODULE)}

@@ -11,7 +11,7 @@
 	<div class="tpl-Base-Edit-Field-MultiEmail d-flex align-items-center js-multi-email">
 		<input name="{$FIELD_MODEL->getFieldName()}" value="{if $FIELD_MODEL->get('fieldvalue')}{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}{/if}" type="hidden" class="js-hidden-email" data-js="value"/>
 		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-email-add-item"
-				data-js="click">
+				tabindex="{$FIELD_MODEL->get('tabindex')}" data-js="click">
 			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE)}"></span>
 		</button>
 		<div class="form-inline">

@@ -18,7 +18,7 @@
 			</div>
 		{/if}
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-format="{$TIME_FORMAT}"
-			   class="clockPicker form-control" value="{$FIELD_VALUE}"
+			   class="clockPicker form-control" value="{$FIELD_VALUE}" tabindex="{$FIELD_MODEL->get('tabindex')}"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 			   name="{$FIELD_MODEL->getFieldName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

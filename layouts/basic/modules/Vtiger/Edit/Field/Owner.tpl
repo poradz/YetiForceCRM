@@ -43,7 +43,7 @@
 			{/if}
 		{/function}
 		<div>
-			<select class="select2 form-control {$FIELD_NAME}"
+			<select class="select2 form-control {$FIELD_NAME}" tabindex="{$FIELD_MODEL->get('tabindex')}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO}'

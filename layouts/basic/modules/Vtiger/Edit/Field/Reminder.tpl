@@ -29,7 +29,7 @@
 			<input name="{$FIELD_MODEL->getName()}" value="0" type="hidden">
 			<label class="d-flex align-items-baseline">
 				<input name="{$FIELD_MODEL->getName()}" value="1" type="checkbox" class="js-reminder-field-checkbox"
-					   {if $REMINDER_VALUES neq ''}checked="checked"{/if}
+					   {if $REMINDER_VALUES neq ''}checked="checked"{/if} tabindex="{$FIELD_MODEL->get('tabindex')}"
 					   title="{\App\Language::translate('Send Reminder', $MODULE)}"
 					   data-js="checked"/>&nbsp;&nbsp;
 			</label>
@@ -38,7 +38,7 @@
 			 data-js="class:d-none">
 			<div class="col-4">
 				<div>
-					<select class="select2" name="remdays"
+					<select class="select2" name="remdays" tabindex="{$FIELD_MODEL->get('tabindex')}"
 							title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
 						{for $DAYS = 0 to 31}
 							<option value="{$DAYS}" {if $DAYS eq $DAY}selected{/if}>{$DAYS}</option>
@@ -51,7 +51,7 @@
 			</div>
 			<div class="col-4">
 				<div>
-					<select class="select2" name="remhrs"
+					<select class="select2" name="remhrs" tabindex="{$FIELD_MODEL->get('tabindex')}"
 							title="{\App\Language::translate('LBL_REMAIND_HOURS', $MODULE)}">
 						{for $HOURS = 0 to 23}
 							<option value="{$HOURS}" {if $HOURS eq $HOUR}selected{/if}>{$HOURS}</option>
@@ -64,7 +64,7 @@
 			</div>
 			<div class="col-4">
 				<div>
-					<select class="select2" name="remmin"
+					<select class="select2" name="remmin" tabindex="{$FIELD_MODEL->get('tabindex')}"
 							title="{\App\Language::translate('LBL_REMAIND_MINS', $MODULE)}">
 						{for $MINUTES = 1 to 59}
 							<option value="{$MINUTES}" {if $MINUTES eq $MINUTE}selected{/if}>{$MINUTES}</option>
