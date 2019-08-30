@@ -13,6 +13,13 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{assign var=HIGHEST_TABINDEX value=0}
+	{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE}
+		{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
+			{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex')}
+		{/if}
+	{/foreach}
+	{assign var=HIGHEST_TABINDEX value=$HIGHEST_TABINDEX + 1}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
@@ -34,14 +41,14 @@
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=$HIGHEST_TABINDEX + 1}
 								{/foreach}
 							{/if}
-							<button class="btn btn-success mr-1" type="submit"
+							<button class="btn btn-success mr-1" type="submit" tabindex="{$HIGHEST_TABINDEX + 1}"
 									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger"
+							<button class="cancelLink btn btn-danger" tabindex="{$HIGHEST_TABINDEX + 1}"
 									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>

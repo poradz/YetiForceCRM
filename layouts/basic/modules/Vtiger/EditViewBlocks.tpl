@@ -60,13 +60,14 @@
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
 				{assign var=HIGHEST_TABINDEX value=0}
-				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
-					{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 						{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
-							{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex') scope="parent"}
+							{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex')}
 						{/if}
 					{/foreach}
 				{/foreach}
+				{assign var=HIGHEST_TABINDEX value=$HIGHEST_TABINDEX + 1 scope=parent}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
