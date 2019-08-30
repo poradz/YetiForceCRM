@@ -20,8 +20,9 @@
 		{/if}
 	{/foreach}
 	{assign var=HIGHEST_TABINDEX value=$HIGHEST_TABINDEX + 1}
+	{assign var=TABINDEX_INCREMENT value=100}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-1" role="dialog">
+	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
@@ -41,14 +42,14 @@
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=$HIGHEST_TABINDEX + 1}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=$HIGHEST_TABINDEX + $TABINDEX_INCREMENT + 1}
 								{/foreach}
 							{/if}
-							<button class="btn btn-success mr-1" type="submit" tabindex="{$HIGHEST_TABINDEX + 1}"
+							<button class="btn btn-success mr-1" type="submit" tabindex="{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT + 1}"
 									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger" tabindex="{$HIGHEST_TABINDEX + 1}"
+							<button class="cancelLink btn btn-danger" tabindex="{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT + 1}"
 									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>

@@ -3,10 +3,13 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	<div class="tpl-List-Field-CompanySelect">
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 		<select name="{$FIELD_MODEL->getName()}" class="select2 form-control"
-				tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+				tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
 				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}

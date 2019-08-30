@@ -5,8 +5,11 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	<div class="tpl-Edit-Field-Country">
-		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				{if $PLACE_HOLDER}data-select="allowClear"

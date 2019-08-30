@@ -11,6 +11,9 @@
 -->*}
 {strip}
 	<!-- tpl-Users-Edit-Field-Picklist -->
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
@@ -23,7 +26,7 @@
 	{/if}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<select class="select2 form-control" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO|escape}'
-			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true && !in_array($FIELD_NAME,['currency_decimal_separator','currency_grouping_separator','authy_methods'])} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
 			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $PLACE_HOLDER}data-select="allowClear"{/if}>

@@ -14,10 +14,13 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	<div class="checkbox">
 		<label>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if !empty($IS_RELATION)}1{else}0{/if}"/>
-			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 				   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" disabled="disabled" {/if}
 				   title="{if !empty($IS_RELATION)}1{else}0{/if}" name="{$FIELD_MODEL->getFieldName()}"
 				   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

@@ -10,6 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	<div class="tpl-Edit-Field-Recurrence">
 		<div class="typeSavingModal">
 			<div class="modal fade" tabindex="-1" role="dialog">

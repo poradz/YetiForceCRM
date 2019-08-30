@@ -5,6 +5,9 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	<div class="tpl-Edit-Field-Time input-group time">
 		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
@@ -18,7 +21,7 @@
 			</div>
 		{/if}
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-format="{$TIME_FORMAT}"
-			   class="clockPicker form-control" value="{$FIELD_VALUE}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+			   class="clockPicker form-control" value="{$FIELD_VALUE}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 			   name="{$FIELD_MODEL->getFieldName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

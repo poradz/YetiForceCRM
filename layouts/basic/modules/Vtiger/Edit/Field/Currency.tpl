@@ -24,12 +24,15 @@
 		{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
+		{if empty($TABINDEX_INCREMENT)}
+			{assign var=TABINDEX_INCREMENT value=0}
+		{/if}
 		{if $FIELD_MODEL->getUIType() eq '71'}
 			<div class="input-group" data-uitype="71">
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
-				<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
+				<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 					   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					   class="currencyField form-control {if $SYMBOL_PLACEMENT eq '1.0$'} textAlignRight {/if}"
 					   name="{$FIELD_MODEL->getFieldName()}"

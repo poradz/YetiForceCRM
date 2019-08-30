@@ -3,6 +3,9 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{if empty($TABINDEX_INCREMENT)}
+		{assign var=TABINDEX_INCREMENT value=0}
+	{/if}
 	{if !empty($FIELD_MODEL->get('fieldvalue'))}
 		{assign var=NOT_DISPLAY_LIST_VALUES value=$FIELD_VALUE}
 	{else}
@@ -11,7 +14,7 @@
 	<div class="tpl-Base-Edit-Field-MultiEmail d-flex align-items-center js-multi-email">
 		<input name="{$FIELD_MODEL->getFieldName()}" value="{if $FIELD_MODEL->get('fieldvalue')}{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}{/if}" type="hidden" class="js-hidden-email" data-js="value"/>
 		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-email-add-item"
-				tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}" data-js="click">
+				tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}" data-js="click">
 			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE)}"></span>
 		</button>
 		<div class="form-inline">

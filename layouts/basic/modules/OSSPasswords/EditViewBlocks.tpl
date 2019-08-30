@@ -14,6 +14,15 @@
 			{/if}
 			{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
+			{assign var=HIGHEST_TABINDEX value=0}
+			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+					{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
+						{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex')}
+					{/if}
+				{/foreach}
+			{/foreach}
+			{assign var=HIGHEST_TABINDEX value=$HIGHEST_TABINDEX + 1 scope=parent}
 			{if $IS_PARENT_EXISTS}
 				{assign var=SPLITTED_MODULE value=":"|explode:$MODULE}
 				<input type="hidden" name="module" value="{$SPLITTED_MODULE[1]}"/>
