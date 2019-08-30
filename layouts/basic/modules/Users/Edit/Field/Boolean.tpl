@@ -19,7 +19,7 @@
 			{if !$FIELD_MODEL->isEditableReadOnly()}
 				<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="0"/>
 			{/if}
-			<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->get('tabindex')}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{' '}
+			<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{' '}
 				   disabled="disabled" {/if}
 				   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"{' '}
 				   id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox"{' '}

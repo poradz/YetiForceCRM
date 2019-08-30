@@ -18,7 +18,7 @@
 			</div>
 		{/if}
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-format="{$TIME_FORMAT}"
-			   class="clockPicker form-control" value="{$FIELD_VALUE}" tabindex="{$FIELD_MODEL->get('tabindex')}"
+			   class="clockPicker form-control" value="{$FIELD_VALUE}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 			   name="{$FIELD_MODEL->getFieldName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

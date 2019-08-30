@@ -14,7 +14,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->get('tabindex')}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="tpl-Users-Edit-Field-Base form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
+	<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="tpl-Users-Edit-Field-Base form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
 			{if $FIELD_MODEL->getFieldName() == 'user_name'}
 				data-validation-engine="validate[required,funcCall[Vtiger_UserName_Validator_Js.invokeValidation]]"
 				autocomplete="username"

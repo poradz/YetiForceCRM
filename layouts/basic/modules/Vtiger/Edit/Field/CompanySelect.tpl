@@ -6,7 +6,7 @@
 	<div class="tpl-List-Field-CompanySelect">
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 		<select name="{$FIELD_MODEL->getName()}" class="select2 form-control"
-				tabindex="{$FIELD_MODEL->get('tabindex')}"
+				tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
 				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}

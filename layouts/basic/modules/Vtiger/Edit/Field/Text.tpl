@@ -19,7 +19,7 @@
 	<div>
 		{if $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300' }
 			{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-			<textarea name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->get('tabindex')}"
+			<textarea name="{$FIELD_MODEL->getFieldName()}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
 					  id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_{$UNIQUE_ID}{if $FIELD_MODEL->getUIType() eq '300' && $VIEW eq 'QuickCreateAjax'}_qc{/if}"
 					  class="col-md-12 form-control {if $FIELD_MODEL->getUIType() eq '300'}js-editor{/if} {if $FIELD_MODEL->isNameField()}nameField{/if} {if !empty($PARAMS['class'])}{$PARAMS['class']}{/if}"
 					  title="{\App\Language::translate($FIELD_MODEL->getFieldLabel())}"
@@ -31,7 +31,7 @@
 			</textarea>
 		{else}
 			<textarea name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}"
-					  class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" tabindex="{$FIELD_MODEL->get('tabindex')}"
+					  class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
 					  title="{\App\Language::translate($FIELD_MODEL->getFieldLabel())} "
 					  data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}{if $FIELD_MODEL->get('maximumlength')}funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]{else}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}]]"
 					  data-fieldinfo='{$FIELD_INFO}'

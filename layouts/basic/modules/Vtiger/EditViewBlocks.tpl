@@ -59,7 +59,14 @@
 				{else}
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
-					{assign var=HIGHEST_TABINDEX value=0}
+				{assign var=HIGHEST_TABINDEX value=0}
+				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+						{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
+							{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex') scope="parent"}
+						{/if}
+					{/foreach}
+				{/foreach}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
@@ -147,9 +154,6 @@
 														<span class="redColor">*</span>
 													{/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
-											{/if}
-											{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
-												{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex') scope="parent"}
 											{/if}
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS }
 										</div>

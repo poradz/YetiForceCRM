@@ -6,7 +6,7 @@
 	<div class="d-flex align-items-center js-multi-field" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" value="{if $FIELD_MODEL->get('fieldvalue')}{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}{/if}"
 		type="hidden" class="js-multi-field-val" data-js="value" data-fields="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($FIELDS_MODEL)))}"/>
-		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-field-add-item" tabindex="{$FIELD_MODEL->get('tabindex')}" data-js="click">
+		<button type="button" class="btn btn-outline-success border mr-2 mb-2 h-100 js-multi-field-add-item" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}" data-js="click">
 			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE_NAME)}"></span>
 		</button>
 		<div class="form-inline w-100">

@@ -39,7 +39,7 @@
 		<div>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 			<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$FIELD_NAME}"
-					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{$FIELD_MODEL->get('tabindex')}"
+					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}'
 					multiple="multiple" {if !empty($SPECIAL_VALIDATOR)} data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}

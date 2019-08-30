@@ -9,7 +9,7 @@
 	<select id="{$MODULE_NAME}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}" multiple data-tags="true"
 	class="js-multi-domain select2 form-control col-md-12" name="{$FIELD_MODEL->getFieldName()}[]" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true}
 	data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {else} data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"{/if}
-	data-validator={\App\Json::encode([['name'=>'MultiDomain']])} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} tabindex="{$FIELD_MODEL->get('tabindex')}">
+	data-validator={\App\Json::encode([['name'=>'MultiDomain']])} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex')}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX}{else}0{/if}">
 		{foreach item=PICKLIST_VALUE from=$FIELD_VALUE}
 			<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if $PICKLIST_VALUE}selected{/if}>{$PICKLIST_VALUE}</option>
 		{/foreach}
