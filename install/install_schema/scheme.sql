@@ -5539,7 +5539,7 @@ CREATE TABLE `vtiger_field` (
   `defaultvalue` text DEFAULT NULL,
   `maximumlength` varchar(30) DEFAULT NULL,
   `sequence` smallint(5) unsigned NOT NULL,
-  `tabindex` smallint(5) unsigned DEFAULT NULL,
+  `tabindex` smallint(5) DEFAULT NULL,
   `block` int(10) DEFAULT NULL,
   `displaytype` tinyint(1) unsigned NOT NULL,
   `typeofdata` varchar(100) DEFAULT NULL,
