@@ -59,6 +59,7 @@
 				{else}
 					{assign var=COLUMNS_SIZES value=['col-md-12']}
 				{/if}
+					{assign var=HIGHEST_TABINDEX value=0}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
@@ -147,7 +148,10 @@
 													{/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
 											{/if}
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+											{if $FIELD_MODEL->get('tabindex') > $HIGHEST_TABINDEX}
+												{assign var=HIGHEST_TABINDEX value=$FIELD_MODEL->get('tabindex') scope="parent"}
+											{/if}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS }
 										</div>
 									</div>
 									{/foreach}
