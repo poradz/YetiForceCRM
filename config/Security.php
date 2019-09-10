@@ -90,13 +90,14 @@ class Security
 	public static $CSP_ACTIVE = true;
 
 	/** List of allowed domains for fields with HTML support */
-	public static $PURIFIER_ALLOWED_DOMAINS = [];
+	public static $PURIFIER_ALLOWED_DOMAINS = ['https://api.opencagedata.com'];
 
 	/** Lifetime session (in seconds) */
 	public static $MAX_LIFETIME_SESSION = 21600;
 
 	/**
 	 * User authentication mode.
+	 *
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';

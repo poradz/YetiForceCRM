@@ -51,7 +51,7 @@ class Debug
 	public static $DISPLAY_DEBUG_VIEWER = false;
 
 	/** Do not show Smarty Notice in phpError.log */
-	public static $SMARTY_ERROR_REPORTING = E_ALL & ~E_NOTICE;
+	public static $SMARTY_ERROR_REPORTING = E_ALL & E_NOTICE;
 
 	/** Turn on/off debug errors javascript */
 	public static $JS_DEBUG = true;
@@ -74,9 +74,9 @@ class Debug
 	/**
 	 * Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.
 	 * https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
-	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
+	 * All errors - E_ALL & E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR.
 	 */
-	public static $EXCEPTION_ERROR_LEVEL = E_ALL & ~E_NOTICE;
+	public static $EXCEPTION_ERROR_LEVEL = E_ALL & E_NOTICE;
 
 	/** API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;
