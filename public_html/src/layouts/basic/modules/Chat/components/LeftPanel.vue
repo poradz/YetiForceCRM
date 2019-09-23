@@ -5,10 +5,10 @@
       <slot name="top"></slot>
       <div class="bg-grey-11">
         <q-input dense v-model="filterRooms" :placeholder="translate('JS_CHAT_FILTER_ROOMS')" class="q-px-sm">
-          <template v-slot:prepend>
+          <template #prepend>
             <q-icon name="mdi-magnify" />
           </template>
-          <template v-slot:append>
+          <template #append>
             <q-icon v-show="filterRooms.length > 0" name="mdi-close" @click="filterRooms = ''" class="cursor-pointer" />
           </template>
         </q-input>
@@ -242,8 +242,8 @@ export default {
           global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
           group: Object.values(this.data.roomList.group).sort(this.sortByRoomName),
           private: Object.values(this.data.roomList.private).sort(this.sortByRoomName)
-				}
-				} else {
+        }
+      } else {
         return {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName),
           global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
@@ -259,10 +259,10 @@ export default {
     getGroupIcon,
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
-		},
-		sortByRoomName(a, b) {
-			return a.name > b.name ? 1 : -1
-		},
+    },
+    sortByRoomName(a, b) {
+      return a.name > b.name ? 1 : -1
+    },
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
     },

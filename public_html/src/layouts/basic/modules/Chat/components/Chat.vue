@@ -3,13 +3,13 @@
   <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <chat-header @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
     <left-panel>
-      <template v-slot:top>
+      <template #top>
         <backdrop v-show="tab !== 'chat'" />
       </template>
     </left-panel>
     <q-drawer :value="rightPanel" side="right" @hide="setRightPanel(false)" bordered>
       <right-panel :participants="currentRoomData.participants || []">
-        <template v-slot:top>
+        <template #top>
           <backdrop v-show="tab !== 'chat'" />
         </template>
       </right-panel>
