@@ -19,18 +19,7 @@
         >
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED') }}</q-tooltip>
         </q-btn>
-        <q-btn
-          v-if="addRoomComponent"
-          dense
-          flat
-          round
-          size="sm"
-          color="primary"
-          icon="mdi-plus"
-          @click="showAddRoomPanel = !showAddRoomPanel"
-        >
-          <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
-        </q-btn>
+				<slot name="addRoomBtn"></slot>
         <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
           <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
         </q-icon>

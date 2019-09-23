@@ -10,7 +10,7 @@ import List from '../List.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'Crm',
+  name: 'RoomGlobal',
   components: { SelectModules, List },
   data() {
     return {

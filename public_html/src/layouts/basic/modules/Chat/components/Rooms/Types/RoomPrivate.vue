@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <List>
-    <template v-slot:item-right>
+    <template #item-right>
       <q-btn
         v-if="roomType === 'private' && isUserModerator(room)"
         :class="{ 'hover-display': $q.platform.is.desktop }"
@@ -16,7 +16,7 @@
         <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
       </q-btn>
     </template>
-    <template v-slot:item-right>
+    <template #item-right>
       <q-item v-show="showAddPrivateRoom">
         <add-room :showAddPrivateRoom.sync="showAddPrivateRoom" />
       </q-item>
@@ -29,7 +29,7 @@ import List from '../List.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'LeftPanel',
+  name: 'RoomPrivate',
   components: { SelectModules, AddRoom },
   data() {
     return {
