@@ -1,8 +1,27 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-	<List>
-
-	</List>
+  <List>
+    <template v-slot:item-right>
+      <q-btn
+        v-if="roomType === 'private' && isUserModerator(room)"
+        :class="{ 'hover-display': $q.platform.is.desktop }"
+        dense
+        round
+        flat
+        size="xs"
+        @click.stop="showArchiveDialog(room)"
+        color="negative"
+        icon="mdi-delete"
+      >
+        <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
+      </q-btn>
+    </template>
+    <template v-slot:item-right>
+      <q-item v-show="showAddPrivateRoom">
+        <add-room :showAddPrivateRoom.sync="showAddPrivateRoom" />
+      </q-item>
+    </template>
+  </List>
 </template>
 <script>
 import SelectModules from './SelectModules.vue'
@@ -35,7 +54,7 @@ export default {
       return room => {
         return room.creatorid === CONFIG.userId || this.config.isAdmin
       }
-    },
+    }
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
