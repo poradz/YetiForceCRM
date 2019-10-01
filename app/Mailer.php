@@ -115,7 +115,7 @@ class Mailer
 		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
-		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
+		$params['content'] = $textParser->setContent(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($template['content'])))->parse()->getContent();
 		unset($textParser);
 		if (empty($params['smtp_id']) && !empty($template['smtp_id'])) {
 			$params['smtp_id'] = $template['smtp_id'];
@@ -247,6 +247,48 @@ class Mailer
 		}
 		if ($this->smtp['reply_to']) {
 			$this->mailer->addReplyTo($this->smtp['reply_to']);
+		}
+		if ($this->smtp['unsubscribe']) {
+			$unsubscribe = '';
+			foreach (\App\Json::decode($this->smtp['unsubscribe']) as $row) {
+				$unsubscribe .= "<$row>,";
+			}
+			$unsubscribe = rtrim($unsubscribe, ',');
+			$this->mailer->AddCustomHeader('List-Unsubscribe', $unsubscribe);
+		}
+		if ($this->smtp['priority']) {
+			$priorityName = $priority = $priorityX = null;
+			switch ($this->smtp['priority']) {
+				case 'normal':
+				case 'Normal':
+					$priorityX = 3;
+					$priority = $priorityName = 'Normal';
+					break;
+				case 'non-urgent':
+				case 'Low':
+					$priorityX = 5;
+					$priority = 'Non-Urgent';
+					$priorityName = 'Low';
+					break;
+				case 'urgent':
+				case 'High':
+						$priorityX = 1;
+						$priority = 'Urgent';
+						$priorityName = 'High';
+					break;
+			}
+			if ($priority) {
+				$this->mailer->Priority = $priorityX;
+				$this->mailer->AddCustomHeader('Priority', $priority);
+				$this->mailer->AddCustomHeader('X-MSMail-Priority', $priorityName);
+				$this->mailer->AddCustomHeader('Importance', $priorityName);
+			}
+		}
+		if ($this->smtp['confirm_reading_to']) {
+			$this->mailer->ConfirmReadingTo = $this->smtp['confirm_reading_to'];
+		}
+		if ($this->smtp['organization']) {
+			$this->mailer->AddCustomHeader('Organization', $this->smtp['organization']);
 		}
 	}
 
