@@ -1,15 +1,16 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer
-    :breakpoint="drawerBreakpoint"
+    :breakpoint="layout.drawer.breakpoint"
     no-swipe-close
     no-swipe-open
     :show-if-above="false"
-    v-model="leftPanel"
+    v-model="computedModel"
     side="left"
     bordered
-    @hide="setLeftPanel(false)"
-    @input="onDrawerClose"
+    @hide="toggleLeftPanel(false)"
+    class="backdrop-fix"
+    ref="chatPanel"
   >
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
@@ -39,17 +40,13 @@ import RoomPrivate from './Rooms/RoomPrivate.vue'
 import RoomGroup from './Rooms/RoomGroup.vue'
 import RoomGlobal from './Rooms/RoomGlobal.vue'
 import RoomRecord from './Rooms/RoomRecord.vue'
+import { drawerBase } from '../utils/mixins.js'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatLeftPanel',
   components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
-  props: {
-    drawerBreakpoint: {
-      type: Number,
-      required: true
-    }
-  },
+  mixins: [drawerBase],
   data() {
     return {
       filterRooms: '',
@@ -61,11 +58,22 @@ export default {
       }
     }
   },
+  watch: {
+    mobileMode(isMobileMode) {
+      this.fixBackdropOfMobilePanel(isMobileMode)
+    }
+  },
   computed: {
-    ...mapGetters(['data', 'layout']),
+    ...mapGetters(['data', 'layout', 'coordinates', 'miniMode', 'mobileMode']),
     leftPanel: {
       get() {
         return this.$store.getters['Chat/leftPanel']
+      },
+      set(isOpen) {}
+    },
+    leftPanelMobile: {
+      get() {
+        return this.$store.getters['Chat/leftPanelMobile']
       },
       set(isOpen) {}
     },
@@ -85,23 +93,30 @@ export default {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName)
         }
       }
+    },
+    computedModel: {
+      get() {
+        return this.mobileMode ? this.leftPanelMobile : this.leftPanel
+      },
+      set(isOpen) {
+        this.toggleLeftPanel(isOpen)
+      }
     }
   },
   methods: {
     ...mapMutations(['setLeftPanel']),
+    ...mapActions(['toggleLeftPanel']),
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
     },
     sortByRoomName(a, b) {
       return a.name > b.name ? 1 : -1
-    },
-    onDrawerClose(ev) {
-      if (!ev) {
-        this.setLeftPanel(false)
-      }
     }
   }
 }
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+.backdrop-fix .fullscreen.q-drawer__backdrop.no-pointer-events {
+  background-color: rgba(0, 0, 0, 0);
+}
 </style>

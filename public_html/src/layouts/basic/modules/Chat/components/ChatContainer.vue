@@ -2,12 +2,21 @@
 <template>
   <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <ChatHeader @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
-    <ChatLeftPanel :drawerBreakpoint="drawerBreakpoint">
+    <ChatLeftPanel>
       <template #top>
         <YfBackdrop v-show="tab !== 'chat'" />
       </template>
     </ChatLeftPanel>
-    <q-drawer :breakpoint="drawerBreakpoint" no-swipe-close no-swipe-open :show-if-above="false" v-model="rightPanel" side="right" bordered @input="onDrawerClose">
+    <q-drawer
+      :breakpoint="layout.drawer.breakpoint"
+      no-swipe-close
+      no-swipe-open
+      :show-if-above="false"
+      v-model="rightPanel"
+      side="right"
+      bordered
+      @input="onDrawerClose"
+    >
       <ChatRightPanel :participants="currentRoomData.participants || []">
         <template #top>
           <YfBackdrop v-show="tab !== 'chat'" />
@@ -34,28 +43,22 @@ export default {
   props: {
     parentRefs: { type: Object, required: true }
   },
-  data() {
-    return {
-			drawerBreakpoint: 1023
-		}
-  },
   computed: {
-		...mapGetters(['data', 'miniMode', 'tab', 'currentRoomData']),
-		rightPanel: {
+    ...mapGetters(['data', 'miniMode', 'tab', 'currentRoomData', 'layout']),
+    rightPanel: {
       get() {
         return this.$store.getters['Chat/rightPanel']
       },
-      set() {
-      }
-    },
+      set() {}
+    }
   },
   methods: {
-		...mapMutations(['setRightPanel']),
-		onDrawerClose(ev) {
-			if(!ev) {
-				this.setRightPanel(false)
-			}
-		}
+    ...mapMutations(['setRightPanel']),
+    onDrawerClose(ev) {
+      if (!ev) {
+        this.setRightPanel(false)
+      }
+    }
   }
 }
 </script>
