@@ -124,12 +124,12 @@ export default {
   },
   methods: {
     ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
-    ...mapMutations(['setDialog', 'setLeftPanel', 'setRightPanel', 'setSendByEnter', 'setSoundNotification']),
+    ...mapMutations(['setDialog', 'setSendByEnter', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
     toggleSize() {
-			this.miniMode = !this.miniMode
+      this.miniMode = !this.miniMode
     },
     toggleEnter() {
       this.setSendByEnter(!this.sendByEnter)

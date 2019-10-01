@@ -1,16 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer
+    v-model="computedModel"
+    :class="{ 'backdrop-fix': mobileMode && !computedModel }"
     :breakpoint="layout.drawer.breakpoint"
     no-swipe-close
     no-swipe-open
-    :show-if-above="false"
-    v-model="computedModel"
-    side="left"
     bordered
-    @hide="toggleLeftPanel(false)"
-    class="backdrop-fix"
-    ref="chatPanel"
+    :show-if-above="false"
+    side="left"
   >
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
@@ -40,13 +38,11 @@ import RoomPrivate from './Rooms/RoomPrivate.vue'
 import RoomGroup from './Rooms/RoomGroup.vue'
 import RoomGlobal from './Rooms/RoomGlobal.vue'
 import RoomRecord from './Rooms/RoomRecord.vue'
-import { drawerBase } from '../utils/mixins.js'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatLeftPanel',
   components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
-  mixins: [drawerBase],
   data() {
     return {
       filterRooms: '',
@@ -58,24 +54,17 @@ export default {
       }
     }
   },
-  watch: {
-    mobileMode(isMobileMode) {
-      this.fixBackdropOfMobilePanel(isMobileMode)
-    }
-  },
   computed: {
-    ...mapGetters(['data', 'layout', 'coordinates', 'miniMode', 'mobileMode']),
-    leftPanel: {
+    ...mapGetters(['data', 'layout', 'miniMode', 'mobileMode', 'leftPanel', 'leftPanelMobile']),
+    computedModel: {
       get() {
-        return this.$store.getters['Chat/leftPanel']
+        return this.mobileMode ? this.leftPanelMobile : this.leftPanel
       },
-      set(isOpen) {}
-    },
-    leftPanelMobile: {
-      get() {
-        return this.$store.getters['Chat/leftPanelMobile']
-      },
-      set(isOpen) {}
+      set(isOpen) {
+        if (this.mobileMode) {
+          this.setLeftPanelMobile(isOpen)
+        }
+      }
     },
     roomList() {
       if (this.filterRooms === '') {
@@ -93,19 +82,10 @@ export default {
           crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName)
         }
       }
-    },
-    computedModel: {
-      get() {
-        return this.mobileMode ? this.leftPanelMobile : this.leftPanel
-      },
-      set(isOpen) {
-        this.toggleLeftPanel(isOpen)
-      }
     }
   },
   methods: {
-    ...mapMutations(['setLeftPanel']),
-    ...mapActions(['toggleLeftPanel']),
+    ...mapMutations(['setLeftPanelMobile']),
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
     },
@@ -115,8 +95,5 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.backdrop-fix .fullscreen.q-drawer__backdrop.no-pointer-events {
-  background-color: rgba(0, 0, 0, 0);
-}
+<style lang="scss">
 </style>

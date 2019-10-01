@@ -23,6 +23,9 @@ export default {
 	rightPanel(state) {
 		return state.session.rightPanel
 	},
+	rightPanelMobile(state) {
+		return state.session.rightPanelMobile
+	},
 	historyTab(state) {
 		return state.session.historyTab
 	},

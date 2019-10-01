@@ -8,14 +8,14 @@
       </template>
     </ChatLeftPanel>
     <q-drawer
+      v-model="computedModel"
+      :class="{ 'backdrop-fix': mobileMode && !computedModel }"
       :breakpoint="layout.drawer.breakpoint"
       no-swipe-close
       no-swipe-open
-      :show-if-above="false"
-      v-model="rightPanel"
-      side="right"
       bordered
-      @input="onDrawerClose"
+      :show-if-above="false"
+      side="right"
     >
       <ChatRightPanel :participants="currentRoomData.participants || []">
         <template #top>
@@ -36,7 +36,7 @@ import ChatFooter from './ChatFooter.vue'
 import YfBackdrop from 'components/YfBackdrop.vue'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatContainer',
   components: { ChatLeftPanel, ChatRightPanel, ChatMainPanel, ChatHeader, ChatFooter, YfBackdrop },
@@ -44,21 +44,29 @@ export default {
     parentRefs: { type: Object, required: true }
   },
   computed: {
-    ...mapGetters(['data', 'miniMode', 'tab', 'currentRoomData', 'layout']),
-    rightPanel: {
+    ...mapGetters([
+      'data',
+      'miniMode',
+      'mobileMode',
+      'tab',
+      'currentRoomData',
+      'layout',
+      'rightPanel',
+      'rightPanelMobile'
+    ]),
+    computedModel: {
       get() {
-        return this.$store.getters['Chat/rightPanel']
+        return this.mobileMode ? this.rightPanelMobile : this.rightPanel
       },
-      set() {}
+      set(isOpen) {
+        if (this.mobileMode) {
+          this.setRightPanelMobile(isOpen)
+        }
+      }
     }
   },
   methods: {
-    ...mapMutations(['setRightPanel']),
-    onDrawerClose(ev) {
-      if (!ev) {
-        this.setRightPanel(false)
-      }
-    }
+    ...mapMutations(['setRightPanelMobile']),
   }
 }
 </script>
